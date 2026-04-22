@@ -1,0 +1,48 @@
+💡 Concept
+
+Build a full Active Directory-based IAM system that simulates a real company:
+
+Departments (HR, IT, Finance, etc.)
+Role-based access
+Automated provisioning
+Lifecycle management (Joiner–Mover–Leaver)
+
+This is exactly what many internal IAM teams still run.
+
+🧱 What You’ll Implement
+🏢 1. Active Directory Domain Design
+Create domain (e.g., corp.local)
+Organizational Units (OUs):
+Users
+Computers
+Departments (HR, IT, Finance)
+Group structure:
+Role groups (e.g., HR_Read, IT_Admin)
+Security groups for access control
+👤 2. Automated User Provisioning (PowerShell)
+Script to:
+Create users from CSV
+Assign department
+Add to correct groups
+Set home directories
+🔄 3. Lifecycle Management
+Joiner: Auto-create + assign access
+Mover: Change department → update permissions
+Leaver:
+Disable account
+Remove group memberships
+Archive home directory
+🔐 4. RBAC (Role-Based Access Control)
+Map:
+Roles → Groups → Permissions
+Apply NTFS permissions on shared folders
+📁 5. File Server Access Control
+Shared folders:
+\\corp\HR
+\\corp\Finance
+Restrict access using AD groups
+📊 6. Auditing & Logging
+Enable:
+Logon auditing
+Object access auditing
+Script to pull security logs
