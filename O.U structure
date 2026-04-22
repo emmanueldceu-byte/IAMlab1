@@ -1,0 +1,11 @@
+MangoBanana.local
+│
+├── Users
+│   ├── HR
+│   ├── IT
+│   └── Finance
+│
+├── Groups
+├── ServiceAccounts
+├── Computers
+└── Admins
