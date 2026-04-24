@@ -43,6 +43,7 @@ Due to budget constraints, the initial deployment used a **single-server lab arc
 - DNS Server  
 - Group Policy  
 - Active Directory Certificate Services (AD CS)  
+<img width="660" height="500" alt="Screenshot (137)" src="https://github.com/user-attachments/assets/8b8be205-af51-4e3b-8d73-487920e12fe1" />
 
 ---
 
