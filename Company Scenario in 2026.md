@@ -1,192 +1,247 @@
-Company Name: MangoBanana
-Industry: FinTech / Data Analytics
-Size: ~250 employees
-Headquarters: Newark
-Environment: Hybrid-ready, but primarily on-prem identity
+# MangoBanana IAM Modernization Project
 
-Business Context
+## Company Overview
+- **Company Name:** MangoBanana (MB)
+- **Industry:** FinTech / Data Analytics
+- **Size:** ~250 employees
+- **Headquarters:** Newark, NJ
+- **Environment:** Hybrid-ready, primarily on-prem identity
 
-In early 2026, MangoBanana expanded rapidly after onboarding several financial clients. This created identity and access management challenges:
+---
 
-No standardized user provisioning process
-Excessive privileged access in IT
-Lack of audit visibility for compliance
-Inconsistent access control across departments
+## Business Context
 
-To address this, the company initiated an IAM modernization project using
-Active Directory Domain Services on Windows Server 2025.
+In early 2026, MangoBanana expanded rapidly after onboarding several financial clients. This growth introduced several Identity and Access Management (IAM) challenges:
 
-Role:IAM Administrator
+- No standardized user provisioning process  
+- Excessive privileged access within IT  
+- Lack of audit visibility for compliance  
+- Inconsistent access control across departments  
 
-Responsibilities:
-Designing identity structure
-Implementing access controls
-Automating provisioning
-Improving security auditing
+To address these issues, the company initiated an IAM modernization project using **Active Directory Domain Services (AD DS)** on **Windows Server 2025**.
 
-Environment I Built
+---
 
-Due to budget constraints, the initial deployment used a single-server architecture (lab simulation):
+## Role: IAM Administrator
 
-Domain Controller: MB01
-Domain: MangoBanana.local
-Core services:
-DNS Server
-Group Policy
-Active Directory Certificate Services
+### Responsibilities
+- Designing identity structure  
+- Implementing access controls  
+- Automating provisioning  
+- Improving security auditing  
 
+---
 
+## Environment Architecture
 
-IAM Implementation
+Due to budget constraints, the initial deployment used a **single-server lab architecture**:
 
-🔹 Organizational Structure
+- **Domain Controller:** MB01  
+- **Domain:** MangoBanana.local  
 
-I designed OUs aligned with business units:
+### Core Services
+- DNS Server  
+- Group Policy  
+- Active Directory Certificate Services (AD CS)  
 
-Finance
-HR
-IT
-Data Analytics
+---
 
-This allowed policy scoping and delegated administration.
+## IAM Implementation
 
-🔹 IAM Lifecycle (Joiner / Mover / Leaver)
+### 🔹 Organizational Structure
 
-You implemented structured workflows:
+Designed Organizational Units (OUs) aligned with business functions:
 
-Joiner
-Created AD accounts using PowerShell
-Assigned department-based groups automatically
+- Finance  
+- HR  
+- IT  
+- Data Analytics  
 
-Mover
-Updated OU and group memberships when employees changed roles
-Ensured access followed least privilege principle
+**Outcome:**  
+Enabled policy scoping and delegated administration.
 
-Leaver
-Disabled accounts immediately upon termination
-Removed group memberships and archived accounts
+---
 
-🔐 RBAC Model
+### 🔹 IAM Lifecycle (Joiner / Mover / Leaver)
 
-I implemented AGDLP-based RBAC:
+#### Joiner
+- Created AD accounts using PowerShell  
+- Automatically assigned department-based groups  
 
-Example:
+#### Mover
+- Updated OU placement and group memberships  
+- Enforced least privilege access  
 
-Finance_Users → Finance_Read_Access → Finance shared folder
-IT_Admins → Elevated privileges on servers
+#### Leaver
+- Disabled accounts immediately upon termination  
+- Removed group memberships and archived accounts  
 
-This reduced direct permission assignments and improved scalability.
+---
 
-📁 Resource Access Control
-Created secure file shares (HR, Finance)
-Applied permissions using Domain Local Groups
-Prevented unauthorized cross-department access
-🛡️ Security & Compliance
+### 🔐 RBAC Model (AGDLP)
 
-Using Group Policy Management Console, you enforced:
+Implemented **AGDLP-based Role-Based Access Control**:
 
-Password policy (12+ characters, complexity enabled)
-Account lockout thresholds
-Audit logging for:
-Logon attempts
-Account changes
-Privileged activity
+**Examples:**
+- `Finance_Users → Finance_Read_Access → Finance Shared Folder`  
+- `IT_Admins → Elevated Server Privileges`  
 
-📊 Auditing & Monitoring
+**Outcome:**  
+- Reduced direct permission assignments  
+- Improved scalability and manageability  
 
-I configured:
+---
 
-Security logs in Event Viewer
-Tracking of failed logins and lockouts
-Monitoring of admin group membership changes
+### 📁 Resource Access Control
 
-This helped meet basic financial compliance requirements.
+- Created secure departmental file shares (HR, Finance)  
+- Applied permissions using Domain Local Groups  
+- Prevented unauthorized cross-department access  
 
-⚡ Automation (PowerShell)
+---
 
-You developed scripts to:
+### 🛡️ Security & Compliance
 
-Bulk create users from HR input
-Assign group memberships automatically
-Reduce manual provisioning errors
+Configured via Group Policy Management:
 
-🚧 Challenges Faced
-Single-server limitation (no redundancy)
-Manual HR input (no HR system integration)
-Over-permissioned legacy accounts
+- Password policy (12+ characters, complexity enforced)  
+- Account lockout thresholds  
+- Audit logging for:
+  - Logon attempts  
+  - Account changes  
+  - Privileged activity  
 
-📈 Outcomes
-Reduced onboarding time from 30 min → 5 min
-Improved access consistency across departments
-Enabled audit visibility for compliance checks
-Established a scalable IAM foundation
+---
 
-Interview Comments:
+### 📊 Auditing & Monitoring
 
-“In a simulated 2026 FinTech environment, I implemented an on-prem IAM system using Active Directory on Windows Server 2025.
-I designed RBAC using the AGDLP model, automated user provisioning with PowerShell, and enforced security policies through Group Policy.
-I also implemented lifecycle management and auditing to align with compliance requirements.”
+Configured:
 
+- Security logs in Event Viewer  
+- Tracking:
+  - Failed logins  
+  - Account lockouts  
+  - Admin group membership changes  
 
-IAM Lab Future Improvements 
-1. High Availability (Add Second Domain Controller)
-Add a second VM as DC (DC02)
-Enable AD replication
-Removes single point of failure
-👉 Improves real enterprise reliability using Active Directory Domain Services
+**Outcome:**  
+Improved compliance visibility for financial regulations.
 
-2. Backup & Disaster Recovery
-System State backups of AD
-Practice restore scenarios
-👉 Shows recovery readiness and fault tolerance
+---
 
-3. Advanced RBAC (AGDLP Refinement)
-Strengthen group-based access model
-Separate admin vs user roles clearly
-👉 Improves security and scalability
+### ⚡ Automation (PowerShell)
 
-4. Privileged Access Security
-Implement LAPS for local admin passwords
-Add tiered admin model (Tier 0/1/2)
-👉 Reduces credential compromise risk using Windows LAPS
+Developed scripts to:
 
-5. IAM Automation Enhancement
-Bulk user provisioning from CSV
-Auto group + OU assignment via PowerShell
-👉 Demonstrates real IAM lifecycle automation
+- Bulk create users from HR input  
+- Automatically assign group memberships  
+- Reduce manual provisioning errors  
 
-6. Hybrid Identity Integration
-Sync AD with cloud identity
-👉 Uses Microsoft Entra Connect
-Enables on-prem + cloud login consistency
+---
 
-7. Federation & SSO
-Deploy ADFS for single sign-on
-👉 Uses Active Directory Federation Services
-Simulates enterprise application authentication
+## 🚧 Challenges Faced
 
-8. Security Hardening & GPO Expansion
-Password, lockout, and audit policies
-Disable USB / restrict control panel
-👉 Strengthens endpoint and identity security using Group Policy
+- Single-server architecture (no redundancy)  
+- Manual HR input (no HRIS integration)  
+- Over-permissioned legacy accounts  
 
-9. Certificate Services (PKI)
-Issue internal certificates for users/servers
-👉 Uses Active Directory Certificate Services
-Enables secure authentication and encryption
+---
 
-10. Monitoring & Auditing
-Track logins, failures, privilege changes
-Centralize security logs
-👉 Builds security visibility and compliance readiness
+## 📈 Outcomes
 
-11. Attack Simulation & Detection
-Test brute force, password spraying scenarios
-Analyze logs and respond
-👉 Demonstrates real-world IAM security thinking
+- Reduced onboarding time: **30 minutes → 5 minutes**  
+- Improved access consistency across departments  
+- Enabled audit visibility for compliance checks  
+- Established a scalable IAM foundation  
 
-12. Documentation & Architecture Layer
-RBAC matrix
-IAM lifecycle flow
-Network diagram
-👉 Makes project enterprise-grade
+---
+
+## 💬 Interview Summary
+
+> "In a simulated 2026 FinTech environment, I implemented an on-prem IAM system using Active Directory on Windows Server 2025.  
+> I designed RBAC using the AGDLP model, automated user provisioning with PowerShell, and enforced security policies through Group Policy.  
+> I also implemented lifecycle management and auditing to align with compliance requirements."
+
+---
+
+## 🚀 Future Improvements
+
+### 1. High Availability
+- Add second Domain Controller (DC02)  
+- Enable AD replication  
+- Eliminate single point of failure  
+
+---
+
+### 2. Backup & Disaster Recovery
+- Perform System State backups  
+- Test AD restore scenarios  
+
+---
+
+### 3. Advanced RBAC
+- Refine AGDLP implementation  
+- Separate admin vs user roles  
+
+---
+
+### 4. Privileged Access Security
+- Implement LAPS for local admin passwords  
+- Deploy tiered admin model (Tier 0/1/2)  
+
+---
+
+### 5. IAM Automation Enhancement
+- Bulk provisioning from CSV  
+- Automated OU and group assignment via PowerShell  
+
+---
+
+### 6. Hybrid Identity Integration
+- Sync on-prem AD with cloud identity  
+- Use Microsoft Entra Connect  
+
+---
+
+### 7. Federation & SSO
+- Deploy ADFS  
+- Enable Single Sign-On (SSO)  
+
+---
+
+### 8. Security Hardening & GPO Expansion
+- Strengthen password and audit policies  
+- Disable USB access  
+- Restrict Control Panel  
+
+---
+
+### 9. Certificate Services (PKI)
+- Issue internal certificates for users and servers  
+- Enable secure authentication and encryption  
+
+---
+
+### 10. Monitoring & Auditing
+- Centralize security logs  
+- Track:
+  - Logins  
+  - Failures  
+  - Privilege changes  
+
+---
+
+### 11. Attack Simulation & Detection
+- Simulate brute force and password spraying attacks  
+- Analyze logs and implement response strategies  
+
+---
+
+### 12. Documentation & Architecture
+- RBAC matrix  
+- IAM lifecycle diagrams  
+- Network architecture diagrams  
+
+**Outcome:**  
+Elevates project to enterprise-grade documentation standards.
+
+---
